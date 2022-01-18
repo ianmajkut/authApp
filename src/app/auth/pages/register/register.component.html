@@ -10,7 +10,7 @@
               <span class="label-input100">Nombre</span>
               <input class="input100"
                      type="text" 
-                     formControlName="nombre" 
+                     formControlName="name" 
                      placeholder="Ingrese su nombre">
               <span class="focus-input100"></span>
           </div>
@@ -38,7 +38,7 @@
           <div class="container-login100-form-btn">
               <div class="wrap-login100-form-btn">
                   <div class="login100-form-bgbtn"></div>
-                  <button class="login100-form-btn" [disabled]="!miFormulario.valid">
+                  <button class="login100-form-btn" type="submit" [disabled]="miFormulario.invalid">
                       Registrar
                   </button>
               </div>
@@ -49,7 +49,7 @@
                   Ya tienes una cuenta?
               </span>
 
-              <a routerLink="/auth/login" class="txt2">
+              <a routerLink="/auth" class="txt2">
                   Ingresa aquí
               </a>
           </div>

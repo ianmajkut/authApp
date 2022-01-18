@@ -14,30 +14,33 @@ export class AuthService {
   private _usuario!: Usuario
 
   get usuario(){
-    return this._usuario
+    return {...this._usuario}
   }
 
   constructor(private http: HttpClient) { }
 
-  registro(name: string, email: string, password: string ){
-    const url = `${this.baseUrl}/auth/new`
-    const body = {name, email, password }
+  registro( name: string, email: string, password: string ) {
 
-    return this.http.post<AuthResponse>(url, body)
+    const url  = `${ this.baseUrl }/auth/new`;
+    
+    const body = { email, password, name };
+    console.log("Llegue a hacer la peticion");
+
+    return this.http.post<AuthResponse>( url, body )
       .pipe(
-        tap(resp => {
-          if(resp.ok) {
-            localStorage.setItem('token', resp.token!)
-            this._usuario = {
-              name: resp.name!,
-              uid: resp.uid!
-            }
-          } 
+        tap( ({ ok, token }) => {
+          console.log("Entre al tap");
+          if ( ok ) {
+            localStorage.setItem('token', token! );
+          }
         }),
-        map( valido => valido.ok),
-        catchError(err=>of(err.error.msg))
-        
-      )
+        map( resp => resp.ok ),
+        catchError( err => {
+          console.log("Salio mal");
+          return of(err.error.msg)
+        } )
+      );
+
   }
 
   login(email: string, password: string){
@@ -50,10 +53,6 @@ export class AuthService {
         tap(resp => {
           if(resp.ok) {
             localStorage.setItem('token', resp.token!)
-            this._usuario = {
-              name: resp.name!,
-              uid: resp.uid!
-            }
           } 
         }),
         map( valido => valido.ok),
@@ -73,7 +72,8 @@ export class AuthService {
                     localStorage.setItem('token', resp.token!)
                     this._usuario = {
                       name: resp.name!,
-                      uid: resp.uid!
+                      uid: resp.uid!,
+                      email: resp.email!
                     }
                     return resp.ok
                   }),

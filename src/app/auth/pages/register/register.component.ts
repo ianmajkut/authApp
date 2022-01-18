@@ -15,9 +15,9 @@ export class RegisterComponent implements OnInit {
   emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
 
   miFormulario: FormGroup = this.fb.group({
-    nombre: ['Test1', [Validators.required, Validators.minLength(3)]],
+    name: ['Test1', [Validators.required, Validators.minLength(3)]],
     email: ['test1@test.com', [Validators.required, Validators.pattern(this.emailPattern)]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['123456', [Validators.required, Validators.minLength(6)]],
   })
 
   constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { }
@@ -26,16 +26,16 @@ export class RegisterComponent implements OnInit {
   }
 
   registrar(){
-    const {name, email, password} = this.miFormulario.value
+    const { name, email, password } = this.miFormulario.value;
 
-    this.authService.registro(name, email, password)
-        .subscribe(ok =>{
-          if(ok === true){
-            this.router.navigateByUrl('/dashboard')
-          }else{
-           Swal.fire('Error', ok, 'error') 
-          }
-        })
+    this.authService.registro( name, email, password )
+      .subscribe( ok => {
+        if ( ok === true ) {
+          this.router.navigateByUrl('/auth');
+        } else {
+          Swal.fire('Error', ok, 'error');
+        }
+      });
   }
 
 }
