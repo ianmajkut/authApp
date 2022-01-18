@@ -12,7 +12,7 @@ export class ValidarTokenGuard implements CanActivate, CanLoad {
   constructor(private authService: AuthService, private router: Router){}
 
   canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log("canActivate");
+    
     return this.authService.validarToken()
                 .pipe(
                   tap(valid => {
@@ -23,7 +23,7 @@ export class ValidarTokenGuard implements CanActivate, CanLoad {
                 )
   }
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log("canLoad");
+    
     return this.authService.validarToken()
                 .pipe(
                   tap(valid => {

@@ -24,19 +24,18 @@ export class AuthService {
     const url  = `${ this.baseUrl }/auth/new`;
     
     const body = { email, password, name };
-    console.log("Llegue a hacer la peticion");
 
     return this.http.post<AuthResponse>( url, body )
       .pipe(
         tap( ({ ok, token }) => {
-          console.log("Entre al tap");
+          
           if ( ok ) {
             localStorage.setItem('token', token! );
           }
         }),
         map( resp => resp.ok ),
         catchError( err => {
-          console.log("Salio mal");
+          
           return of(err.error.msg)
         } )
       );
